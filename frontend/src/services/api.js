@@ -100,7 +100,7 @@ export const bookService = {
 
     delete: async (id) => {
         try {
-            const reponse = await apiClient.delete(`/books/${id}`);
+            await apiClient.delete(`/books/${id}`);
             return true;
         } catch (error) {
             throw new Error('Erreur lors de la suppressiob du livre');
