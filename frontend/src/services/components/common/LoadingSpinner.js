@@ -9,3 +9,5 @@ const LoadingSpinner = ({ message = "Chargement..."}) => {
         </div>
     );
 };
+
+export default LoadingSpinner;
