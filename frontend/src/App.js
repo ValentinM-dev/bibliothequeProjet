@@ -15,8 +15,8 @@ function App() {
         <main className="main-content">
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/" element={<BooksPage />} />
-            <Route path="/" element={<AuthorsPage />} />
+            <Route path="/books" element={<BooksPage />} />
+            <Route path="/authors" element={<AuthorsPage />} />
           </Routes>
         </main>
         <Footer />

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:3000/api';
+const API_BASE_URL = 'http://localhost:8000/api';
 
 const apiClient = axios.create({
     baseURL: API_BASE_URL,
@@ -19,7 +19,7 @@ export const authorService = {
         try {
             const response = await apiClient.get('/authors');
             return extractHydraMember(response.data);
-        } catch (erro) {
+        } catch (error) {
             throw new Error('Impossible de charger les auteurs');
         }
     },
@@ -82,7 +82,7 @@ export const bookService = {
 
     create: async (bookData) => {
         try {
-            const response = await apiClient.post('books', bookData);
+            const response = await apiClient.post('/books', bookData);
             return response.data;
         } catch (error) {
             throw new Error('Erreur lors de la création du livre');
