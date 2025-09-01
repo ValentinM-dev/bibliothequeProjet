@@ -40,6 +40,11 @@ const BookCard = ({ book, onDelete, onEdit }) => {
 
             <div className="book-actions">
                 <button className="btn btn-edit"
+                onClick={() => onEdit(book)} >
+                ✏️ Modifier
+                </button>
+                <button
+                className="btn btn-delete"
                 onClick={() => onDelete(book.id)}>
                     🚮 Supprimer
                 </button>

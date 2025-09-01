@@ -6,7 +6,7 @@ const AuthorsPage = () => {
     const [authors, setAuthors] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [searchTerm, setSearchTerm] = useState(['']);
+    const [searchTerm, setSearchTerm] = useState('');
     const [filteredAuthors, setFilteredAuthors] = useState([]);
     const [form, setForm] = useState({ firstName: "", lastName: "", country: "" });
     const [editingId, setEditingId] = useState(null);
@@ -95,7 +95,7 @@ const AuthorsPage = () => {
                     <thead>
                         <tr>
                             <th>Prénom</th>
-                            <tr>Nom</tr>
+                            <th>Nom</th>
                             <th>Pays</th>
                             <th>Actions</th>
                         </tr>
@@ -103,12 +103,12 @@ const AuthorsPage = () => {
                     <tbody>
                         {filteredAuthors.map(author => (
                             <tr key={author.id} >
-                                <td>{author.fiorstName}</td>
+                                <td>{author.firstName}</td>
                                 <td>{author.lastName}</td>
                                 <td>{author.country}</td>
                                 <td>
                                     <button onClick={() => handleEdit(author)} className="btn-edit">✏️</button>
-                                    <button onClick={() => handleDelete(author)} className="btn-delete">🚮</button>
+                                    <button onClick={() => handleDelete(author.id)} className="btn-delete">🚮</button>
                                 </td>
                             </tr>
                         ))}

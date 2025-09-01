@@ -18,7 +18,7 @@ const BookListAdvanced = ({ onEdit }) => {
     }, []);
 
     useEffect(() => {
-        filteredBooks();
+        filterBooks();
     }, [books, searchTerm]);
 
     const loadInitialData = async () => {

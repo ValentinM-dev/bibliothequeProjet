@@ -24,6 +24,15 @@ const BookForm = ({ bookId = null, onSave, onCancel }) => {
 
     const loadAuthors = async (id) => {
         try {
+            const authorsData = await authorService.getAll();
+            setAuthors(authorsData);
+        } catch (error) {
+            console.error('Erreur lors du chargement des auteurs:', error);
+        }
+    };
+
+    const loadBook = async (id) => {
+        try {
             const bookData = await bookService.getById(id);
             setBook({
                 title: bookData.title,
@@ -33,11 +42,19 @@ const BookForm = ({ bookId = null, onSave, onCancel }) => {
                 author: bookData.author['@id'] || bookData.author
             });
         } catch (error) {
-            setError('Erreur lors du chagement du livre');
+            setError('Erreur lors du chargement du livre');
         }
     };
 
     const handleInputChange = async (e) => {
+        const { name, value } = e.target;
+        setBook(prev => ({
+            ...prev,
+            [name]:value
+        }));
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (!book.title.trim() || !book.author || !book.pages) {
@@ -83,8 +100,8 @@ const BookForm = ({ bookId = null, onSave, onCancel }) => {
                     <label htmlFor="title">Titre *</label>
                     <input
                         type="text"
-                        id="titre"
-                        name="titre"
+                        id="title"
+                        name="title"
                         value={book.title}
                         onChange={handleInputChange}
                         placeholder="Titre du livre" required />
@@ -100,7 +117,7 @@ const BookForm = ({ bookId = null, onSave, onCancel }) => {
                         required>
                         <option value="">Sélectionner un auteur</option>
                         {authors.map(author => (
-                            <option key={author.id} value={`/api/atuhors/${author.id}`}>
+                            <option key={author.id} value={`/api/authors/${author.id}`}>
                                 {author.firstName} {author.lastName}
                             </option>
                         ))}
