@@ -83,7 +83,7 @@ const AuthorsPage = () => {
             <h2>Liste des autheurs</h2>
             <input
                 type="text"
-                placeholder="Recherxher un auteur..."
+                placeholder="Rechercher un auteur..."
                 value={searchTerm}
                 onChange={e => setSearchTerm(e.target.value)}
                 className="search-bar" />

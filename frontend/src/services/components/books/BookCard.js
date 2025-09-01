@@ -10,15 +10,23 @@ const BookCard = ({ book, onDelete, onEdit }) => {
         return 'Auteur non chargé';
     };
 
+    const GetEditorName = (editorInfo) => {
+        if (editorInfo && editorInfo.name) {
+            return `${editorInfo.name} ${editorInfo.headquarters}`
+        }
+
+        return 'Editeur non chargé';
+    };
+
     const handleImageError = (e) => {
-        e.target.src = 'https://via.placeholder.com/200x300/cccccc/666666?text=Image+non+disponible';
+        e.target.src = 'https://placehold.co/200x300/cccccc/666666?text=Image+non+disponible';
     };
 
     return (
         <div className="book-card">
             <div className="book-image-container">
                 <img 
-                src={book.image || 'https://via.placeholder.com/200x300/cccccc/666666?text=Pas+d\'image'}
+                src={book.image || 'https://placehold.co/200x300/cccccc/666666?text=Pas+d\'image'}
                 alt={book.title} 
                 className="book-image"
                 onError={handleImageError}/>
@@ -27,6 +35,7 @@ const BookCard = ({ book, onDelete, onEdit }) => {
             <div className="book-info">
                 <h3 className="book-title">{book.title}</h3>
                 <p className="book-author">Par {GetAuthorName(book.authorInfo)}</p>
+                <p className="book-author">Edité par {GetEditorName(book.editorInfo)}</p>
                 {book.description && (
                     <p className="book-description">
                         {book.description.length > 100 ? `${book.description.substring(0,100)}...` : book.description }

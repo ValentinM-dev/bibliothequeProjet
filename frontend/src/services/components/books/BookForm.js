@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { bookService, authorService } from "../../api";
+import { bookService, authorService, editorService } from "../../api";
 import './BookForm.css';
 
 const BookForm = ({ bookId = null, onSave, onCancel }) => {
@@ -8,10 +8,12 @@ const BookForm = ({ bookId = null, onSave, onCancel }) => {
         description: '',
         pages: '',
         image: '',
-        author: ''
+        author: '',
+        editor: ''
     });
 
     const [authors, setAuthors] = useState([]);
+    const [editors, setEditors] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
@@ -22,6 +24,13 @@ const BookForm = ({ bookId = null, onSave, onCancel }) => {
         }
     }, [bookId]);
 
+    useEffect(() => {
+        loadEditors();
+        if (bookId) {
+            loadBook(bookId);
+        }
+    }, [bookId])
+
     const loadAuthors = async (id) => {
         try {
             const authorsData = await authorService.getAll();
@@ -31,6 +40,15 @@ const BookForm = ({ bookId = null, onSave, onCancel }) => {
         }
     };
 
+    const loadEditors = async (id) => {
+        try {
+            const editorsData = await editorService.getAll();
+            setEditors(editorsData);
+        } catch (error) {
+            console.error('Erreur lors du chargement des éditeurs:', error);
+        }
+    }
+
     const loadBook = async (id) => {
         try {
             const bookData = await bookService.getById(id);
@@ -39,7 +57,8 @@ const BookForm = ({ bookId = null, onSave, onCancel }) => {
                 description: bookData.description || '',
                 pages: bookData.pages,
                 image: bookData.image || '',
-                author: bookData.author['@id'] || bookData.author
+                author: bookData.author['@id'] || bookData.author,
+                editor: bookData.editor['@id'] || bookData.editor
             });
         } catch (error) {
             setError('Erreur lors du chargement du livre');
@@ -69,7 +88,8 @@ const BookForm = ({ bookId = null, onSave, onCancel }) => {
             const bookData = {
                 ...book,
                 pages: parseInt(book.pages),
-                author: book.author.startsWith('/api/authors/') ? book.author : `/api/authors/${book.author}`
+                author: book.author.startsWith('/api/authors/') ? book.author : `/api/authors/${book.author}`,
+                editor: book.editor.startsWith('/api/editors/') ? book.editor : `/api/editors/${book.editor}`
             };
 
             let savedBook;
@@ -122,6 +142,23 @@ const BookForm = ({ bookId = null, onSave, onCancel }) => {
                             </option>
                         ))}
                     </select>
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="editor">Editeur *</label>
+                    <select 
+                        id="editor"
+                        name="editor"
+                        value={book.editor}
+                        onChange={handleInputChange}
+                        required>
+                            {/* <option value="">Sélectionner un éditeur</option> */}
+                            {editors.map(editor => {
+                                <option key={editor.id} value={`/api/editors/${editor.id}`}>
+                                    {/* {editor.name} {editor.headquarters} */} Ceci est un test
+                                </option>
+                            })}
+                        </select>
                 </div>
 
                 <div className="form-group">
