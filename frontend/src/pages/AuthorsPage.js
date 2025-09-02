@@ -80,7 +80,7 @@ const AuthorsPage = () => {
 
     return (
         <div className="authors-page-container">
-            <h2>Liste des autheurs</h2>
+            <h2>Liste des auteurs</h2>
             <input
                 type="text"
                 placeholder="Rechercher un auteur..."

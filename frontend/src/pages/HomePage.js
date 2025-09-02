@@ -1,24 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import './HomePage.css';
-import { bookService, authorService } from '../services/api';
+import { bookService, authorService, editorService } from '../services/api';
 
 const HomePage = () => {
     const [bookCount, setBookCount] = useState(null);
     const [authorCount, setAuthorCount] = useState(null);
+    const [editorCount, setEditorCount] = useState(null);
     const [statsError, setStatsError] = useState(null);
 
     useEffect(() => {
         const fetchStats = async () => {
             try {
                 setStatsError(null);
-                const [books, authors] = await Promise.all([
+                const [books, authors, editors] = await Promise.all([
                     bookService.getAll(),
-                    authorService.getAll()
+                    authorService.getAll(),
+                    editorService.getAll()
                 ]);
 
                 setBookCount(books.length);
                 setAuthorCount(authors.length);
+                setEditorCount(editors.length);
             } catch (e) {
                 setStatsError('Impossible de charger les statistiques');
             }
@@ -48,9 +51,18 @@ const HomePage = () => {
                 <div className="feature-card">
                     <div className="feature-icon">✒️</div>
                     <h3>Gestion des Auteurs</h3>
-                    <p>Dévouvrez et gérez les auteurs de votre bibliothèque</p>
+                    <p>Découvrez et gérez les auteurs de votre bibliothèque</p>
                     <Link to="authors" className="feature-link">
                     Voir les auteurs ➡️
+                    </Link>
+                </div>
+
+                <div className="feature-card">
+                    <div className="feature-icon">🏠</div>
+                    <h3>Gestion des Editeurs</h3>
+                    <p>Découvrez et gérez les éditeurs de votre bibliothèque</p>
+                    <Link to="editors" className="feature-link">
+                    Voir les editors ➡️
                     </Link>
                 </div>
 
@@ -79,6 +91,13 @@ const HomePage = () => {
                             {authorCount !== null ? authorCount : '...'}
                         </div>
                         <div className="stat-label">Auteurs référencés</div>
+                    </div>
+
+                    <div className="stat-card">
+                        <div className="stat-number">
+                            {editorCount !== null ? editorCount : '...'}
+                        </div>
+                        <div className="stat-label">Editeurs référencés</div>
                     </div>
                 </div>
                 {statsError && <div className="stats-error" style={{color:'red', marginTop:8}}>{statsError}</div>}

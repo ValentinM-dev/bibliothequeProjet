@@ -152,12 +152,12 @@ const BookForm = ({ bookId = null, onSave, onCancel }) => {
                         value={book.editor}
                         onChange={handleInputChange}
                         required>
-                            {/* <option value="">Sélectionner un éditeur</option> */}
-                            {editors.map(editor => {
+                            <option value="">Sélectionner un éditeur</option>
+                            {editors.map(editor => (
                                 <option key={editor.id} value={`/api/editors/${editor.id}`}>
-                                    {/* {editor.name} {editor.headquarters} */} Ceci est un test
+                                    {editor.name} {editor.headquarters} 
                                 </option>
-                            })}
+                            ))}
                         </select>
                 </div>
 
